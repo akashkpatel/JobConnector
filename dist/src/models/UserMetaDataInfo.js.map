@@ -1,0 +1,1 @@
+{"version":3,"file":"UserMetaDataInfo.js","sourceRoot":"","sources":["../../../src/models/UserMetaDataInfo.ts"],"names":[],"mappings":";;;;;AAAA,wDAAgC;AAWhC,MAAM,sBAAsB,GAAG,IAAI,kBAAQ,CAAC,MAAM,CAAC;IAC/C,OAAO,EAAE,MAAM;IACf,MAAM,EAAE,MAAM;IACd,eAAe,EAAE,MAAM;IACvB,YAAY,EAAE,MAAM;CACvB,CAAC,CAAC;AAGU,QAAA,gBAAgB,GAAG,kBAAQ,CAAC,KAAK,CAA2B,kBAAkB,EAAE,sBAAsB,CAAC,CAAC"}
