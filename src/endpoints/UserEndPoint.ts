@@ -1,10 +1,13 @@
 import { ApplicationEndPoint } from "./ApplicationEndPoint";
 import { UserController } from "../controllers/UserController";
-import { UserInfo  } from "../models/UserInfo";
+import { UserInfo, UserInfoDocument  } from "../models/UserInfo";
 import { UserJobRelation } from "../models/UserJobRelation";
-import express, {Application, Request, Response} from "express";
+import * as JwtTokenMiddleware from "../middlewares/JwtTokenMiddleware";
+import express, {Application, Request, Response, NextFunction} from "express";
 import {check, validationResult } from "express-validator";
 import {Types} from "mongoose";
+import passport from "passport";
+import jwt  from "jsonwebtoken";
 
 export class UserEndPoint implements ApplicationEndPoint {
     private userController : UserController = undefined;
@@ -16,9 +19,14 @@ export class UserEndPoint implements ApplicationEndPoint {
         this.userController = new UserController(UserInfo, UserJobRelation);
     }
 
+    public checkJWTToken(req : Request, res: Response, next: NextFunction){
+
+    }
+
     public registerRoutes(app: Application): void {
         let userRouter = express.Router();
-        userRouter.get('/user/:userId', [check("userId").isLength({min : 5}).withMessage("There must be atleast 5 characters")],this.fetchUserById.bind(this));
+        userRouter.post('/user/login', this.handleLogin.bind(this));
+        userRouter.get('/user/:userId',  [ JwtTokenMiddleware.verifyJwtToken, check("userId").isLength({min : 5}).withMessage("There must be atleast 5 characters")],this.fetchUserById.bind(this));
         userRouter.get('/user/:userId/job', this.fetchUserAppliedJobs.bind(this));
         userRouter.post('/user/:userId/job', [check("userId").custom(this.checkMongooseValidId).withMessage("Id is invalid"),
                                               check("jobId").custom(this.checkMongooseValidId).withMessage("Id is invalid")],
@@ -28,6 +36,26 @@ export class UserEndPoint implements ApplicationEndPoint {
 
     public checkMongooseValidId(id : string){
         return Types.ObjectId.isValid(id);
+    }
+
+    /* peform authentication and on success return JWT token! */
+    
+    public handleLogin(req: Request, res: Response, next : NextFunction){
+        passport.authenticate('local', function(err, user, info){
+            if(err){
+                res.status(401).send(err);
+            } else {
+
+                /* Another way of login into sessions! req.logIn(user, function(err) */
+                const jwtSecret = process.env["JWT_SECRET"]
+                jwt.sign({userId : user.id}, jwtSecret, function(err : any, decoded : string){
+                if(err){
+                    res.status(401).send({ "message" : "You have not been authenticated!"});
+                }
+                res.status(200).send({ "message" : "You have been successfully logged in as" + decoded});
+                });
+           }
+        })(req,res,next);
     }
 
     public fetchUserById(req : Request, res : Response){

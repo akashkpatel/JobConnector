@@ -27,6 +27,7 @@
         "watch-debug": "concurrently -k -p \"[{name}]\" -n \"Sass,TypeScript,Node\" -c \"yellow.bold,cyan.bold,green.bold\" \"npm run watch-sass\" \"npm run watch-ts\" \"npm run serve-debug\""
     },
     "dependencies": {
+        "@types/jsonwebtoken": "^8.5.0",
         "@types/mocha": "^7.0.2",
         "@types/passport-local-mongoose": "^4.0.13",
         "@types/sinon": "^9.0.0",
@@ -43,6 +44,7 @@
         "express-session": "^1.16.2",
         "express-validator": "^6.2.0",
         "fbgraph": "^1.4.4",
+        "jsonwebtoken": "^8.5.1",
         "lodash": "^4.17.15",
         "lusca": "^1.6.1",
         "mocha": "^7.1.1",
@@ -54,6 +56,7 @@
         "passport-local-mongoose": "^6.0.1",
         "pug": "^2.0.4",
         "sinon": "^9.0.2",
+        "webpack": "^4.43.0",
         "winston": "^3.2.1"
     },
     "devDependencies": {
@@ -97,6 +100,8 @@
         "supertest": "^4.0.2",
         "ts-jest": "^24.1.0",
         "ts-node": "^8.4.1",
-        "typescript": "^3.6.3"
+        "typescript": "^3.6.3",
+        "webpack-cli": "^3.3.11",
+        "webpack-node-externals": "^1.7.2"
     }
 }

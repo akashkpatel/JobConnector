@@ -2,6 +2,7 @@ import { UserInfoDocument } from "../models/UserInfo";
 import { UserJobRelationDocument } from "../models/UserJobRelation";
 import mongoose from "mongoose";
 
+
 export class UserController {
     private userModel : any = null;
     private userJobRelation : any = null;
@@ -14,7 +15,6 @@ export class UserController {
         let userDoc : UserInfoDocument = undefined; 
         try{
             userDoc = await this.userModel.findById(userId).exec();
-            //await this.userModel.findById(userId).exec()
         } catch(e) {
             console.log(e);
         }
