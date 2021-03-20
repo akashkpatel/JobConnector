@@ -1,3 +1,3 @@
 # JobConnector
 
-Adding data
+- Implemented caching layer
